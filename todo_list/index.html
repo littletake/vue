@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Todo List</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Vue.js App</title>
+    <link rel="stylesheet" href="./main.css">
 </head>
 <body>
     <div id="app">
+        <h1>チュートリアルTodoリスト</h1>
         <!-- 絞り込みラジオボタン -->
         <label v-for="label in options">
             <input type="radio"
@@ -14,9 +15,11 @@
             v-bind:value="label.value">{{ label.label }}
         </label>
         <!-- Todoテーブル -->
+        ({{ computedTodos.length}} 件表示)
+
         <table>
             <!-- テーブルヘッダー -->
-            <thead>
+            <thead v-pre>
                 <tr>
                     <th class='id'>ID</th>
                     <th class="comment">コメント</th>
@@ -26,7 +29,9 @@
             </thead>
             <tbody>
                 <!-- [1]　ここに<tr>でTodoの要素を１行づつ繰り返し表示したい -->
-                <tr v-for="item in computedTodos" v-bind:key="item.id">
+                <tr v-for="item in computedTodos"
+                    v-bind:key="item.id"
+                    v-bind:class="{done:item.state}">
                     <!-- 要素の情報 -->
                     <th>{{ item.id }}</th>
                     <td>{{ item.comment }}</td>
@@ -38,13 +43,15 @@
                     </td>
                     <td class="button">
                         <!-- 削除ボタン(ctrlを押してクリックすること) -->
-                        <button v-on:clink.ctrl="doRemove(item)">
+                        <button v-on:clink="doRemove(item)">
                             削除
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <p>削除ボタンはコントロールキーを押しながらクリック</p>
+        
         <!-- 新規登録フォーム -->
         <h2>新しい作業の追加</h2>
         <form class="add-form" v-on:submit.prevent="doAdd">
@@ -54,7 +61,7 @@
             <button type="submit">追加</button>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./main.js"></script>
 </body>
 </html>
